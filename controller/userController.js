@@ -47,6 +47,10 @@ const logIn = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials'});
         }
 
+        if(isMatch.disabled == true ) {
+            return res.status(403).json({ message: "Log In Failed", message: 'Your account has been locked.' });
+        }
+
         const token = jwt.sign({ 
             id: isValidUser._id,
             email: isValidUser.email,

@@ -23,6 +23,10 @@ const Schema = new mongoose.Schema({
         type: String,
         enum: ['admin', 'user'],
         defualt: 'user'
+    },
+    disabled: {
+        type: Boolean,
+        default: false
     }
 })
 
