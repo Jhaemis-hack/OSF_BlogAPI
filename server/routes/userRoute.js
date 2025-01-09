@@ -1,4 +1,4 @@
-const { landPage, getFInance, getTravel, getLifeStyle, getEntertaiment, getRefreshment, getScience, getEnvironment, getPersonalFinance, postBlog, viewBlog, deleteBlog } = require('../../controllers/userController');
+const { landPage, getFInance, getTravel, getLifeStyle, getEntertaiment, getRefreshment, getScience, getEnvironment, getPersonalFinance, viewBlog, deleteBlog, SignUp, logIn } = require('../../controllers/userController');
 
 const router = require('express').Router();
 const multer = require('multer');
@@ -29,10 +29,12 @@ router.get('/Environment', getEnvironment)
 
 router.get('/PersonalFinance', getPersonalFinance)
 
-router.post('/', postBlog)//jwtCheck, upload.single('image')
-
-router.post('/blog/:id/delete', jwtCheck, deleteBlog)
+router.post('/blog/:id/delete', jwtCheck(), deleteBlog)
 
 router.get('/blog/:id', viewBlog)
+
+router.post('/signup', SignUp);
+
+router.post('/login', logIn);
 
 module.exports = router

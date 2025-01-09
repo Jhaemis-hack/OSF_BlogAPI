@@ -1,26 +1,33 @@
-const exJwt = require('express-jwt');
-const secret = process.env.Secret
+const { expressjwt } = require('express-jwt'); // Updated import for express-jwt
 
-function jwtCheck(){
-    return exJwt({
-        secret: secret,
-        algorithms: ['HS256']
-    });
+const secret = process.env.Secret;
+if (!secret) {
+    throw new Error('JWT Secret is not defined in environment variables.');
 }
 
-function jwtAuth(){
-    return exJwt({
+// Middleware to check basic JWT authentication
+function jwtCheck() {
+    return expressjwt({
         secret: secret,
         algorithms: ['HS256'],
-        isRevoked: revoke
     });
 }
 
-async function revoke(req, payload, done){
-    if(!payload.role == "Admin"){
-        done(null, true);
-    }
-    done(null, false);
+// Middleware to check JWT with custom revoke logic
+function jwtAuth() {
+    return expressjwt({
+        secret: secret,
+        algorithms: ['HS256'],
+        isRevoked: revoke,
+    });
+}
+
+// Function to revoke tokens based on role
+async function revoke(req, payload) {
+    if (!payload || payload.payload.role !== "admin") {
+        return true; // Revoke access
+    } 
+    return false; // Allow access 
 }
 
 module.exports = { jwtCheck, jwtAuth };

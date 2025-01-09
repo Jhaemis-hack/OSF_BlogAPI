@@ -22,7 +22,7 @@ const Schema = new mongoose.Schema({
     role:{
         type: String,
         enum: ['admin', 'user'],
-        defualt: 'user'
+        default: 'user'
     },
     disabled: {
         type: Boolean,
